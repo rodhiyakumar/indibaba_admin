@@ -1,0 +1,1 @@
+{"result":{"text":"bevelled fraction numerator begin display style 25 over 25 end style over denominator 50 end fraction"},"status":"ok"}

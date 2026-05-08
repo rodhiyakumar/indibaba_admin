@@ -1,0 +1,1 @@
+{"result":{"text":"partial differential straight pi"},"status":"ok"}

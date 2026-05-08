@@ -1,0 +1,1 @@
+{"result":{"text":"bevelled fraction numerator 20 over denominator 20 space alpha beta delta gamma epsilon zeta eta theta ϑ iota space square root of 2 space square root of 5 end fraction"},"status":"ok"}

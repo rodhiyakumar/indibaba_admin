@@ -1,0 +1,1 @@
+{"result":{"text":"fraction numerator 20 over denominator 20 space end fraction space square root of 20 space alpha beta gamma delta zeta eta theta ϑ iota"},"status":"ok"}

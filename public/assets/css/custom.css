@@ -1,0 +1,51 @@
+.bg-img{
+    background-image: url('../images/auth-bg/bg-1.jpg');
+}
+.dashboard .box .box-body .align-items-center{
+    padding-top: 20px;
+}
+input:read-only{
+    cursor: not-allowed;
+}
+textarea { resize: none; }
+.img-container .preview {
+    width: 88px;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 50%;
+    height: 88px;
+    overflow: hidden;
+    margin: 10px;
+}
+.user-profile img{
+    border: 5px solid rgb(204 204 204 / 50%) !important;
+}
+
+.update_subject_icon{
+    display: none;
+}
+.icon15x15{
+    padding-bottom: 2px;
+}
+[data-overlay]::before{
+    position: fixed;
+}
+#dataTable .fa-user-circle-o{
+    font-size: 20px;
+}
+.badge.badge-outlined.badge-primary {
+    border-color: #2196F3;
+    color: #2196F3;
+}
+.badge.badge-outlined {
+    background-color: transparent;
+}
+.theme-primary .badge-info {
+    background-color: #007eff;
+    color: #ffffff !important;
+}
+.dropzone {
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    background: white;
+}
+
