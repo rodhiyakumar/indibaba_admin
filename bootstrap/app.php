@@ -11,10 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->validateCsrfTokens();
         $middleware->alias([
             'Auth' => \App\Http\Middleware\Auth::class,
             'NoAuth' => \App\Http\Middleware\NoAuth::class,
+        ]);
+        $middleware->preventRequestForgery(except: [
+            '*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
