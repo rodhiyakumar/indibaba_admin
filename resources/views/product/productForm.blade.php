@@ -125,14 +125,14 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Actual Price <i class="text-danger">*</i></label>
-                                                <input type="text" name="actualPrice" id="actualPrice" class="form-control" value="{{ isset($id) ? $product['actualPrice'] : '' }}" placeholder="Enter Actual Price" required>
+                                                <label>Original Price (MRP Price) <i class="text-danger">*</i></label>
+                                                <input type="text" name="originalPrice" id="originalPrice" class="form-control" value="{{ isset($id) ? $product['originalPrice'] : '' }}" placeholder="Enter Original Price" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Listing Price <i class="text-danger">*</i></label>
-                                                <input type="text" name="listingPrice" id="listingPrice" class="form-control" value="{{ isset($id) ? $product['listingPrice'] : '' }}" placeholder="Enter Listing Price" required>
+                                                <label>Selling Price <i class="text-danger">*</i></label>
+                                                <input type="text" name="sellingPrice" id="sellingPrice" class="form-control" value="{{ isset($id) ? $product['sellingPrice'] : '' }}" placeholder="Enter Selling Price" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -511,14 +511,14 @@
 
         $("#addForm, #updateForm").validate({
             rules: {
-                actualPrice: {
-                    required: true,
-                    number: true
-                },
-                sellingPrice: {
+                originalPrice: {
                     required: true,
                     number: true,
                     min: 1
+                },
+                sellingPrice: {
+                    required: true,
+                    number: true
                 }
             },
             errorPlacement: function errorPlacement(error, element) {

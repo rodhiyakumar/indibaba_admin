@@ -38,8 +38,8 @@ class ProductController extends Controller
         $inventoryCode = $request->input('inventoryCode');
         $moq = $request->input('moq');
         $qty = $request->input('qty');
-        $actualPrice = $request->input('actualPrice');
-        $listingPrice = $request->input('listingPrice');
+        $originalPrice = $request->input('originalPrice');
+        $sellingPrice = $request->input('sellingPrice');
         $weight = $request->input('weight');
         $applicationImage = $request->input('applicationImage');
         $description = $request->input('description');
@@ -64,8 +64,8 @@ class ProductController extends Controller
             "inventoryCode" => $inventoryCode,
             "moq" => $moq,
             "qty" => $qty,
-            "actualPrice" => $actualPrice,
-            "listingPrice" => $listingPrice,
+            "originalPrice" => $originalPrice,
+            "sellingPrice" => $sellingPrice,
             "weight" => $weight,
             "applicationImage" => $applicationImage,
             "images" => $images,
@@ -95,7 +95,7 @@ class ProductController extends Controller
         return custom_view('product.productForm', $data);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $categoryId = $request->input('categoryId');
         $brandId = $request->input('brandId');
@@ -109,8 +109,8 @@ class ProductController extends Controller
         $inventoryCode = $request->input('inventoryCode');
         $moq = $request->input('moq');
         $qty = $request->input('qty');
-        $actualPrice = $request->input('actualPrice');
-        $listingPrice = $request->input('listingPrice');
+        $originalPrice = $request->input('originalPrice');
+        $sellingPrice = $request->input('sellingPrice');
         $weight = $request->input('weight');
         $applicationImage = $request->input('applicationImage');
         $description = $request->input('description');
@@ -135,8 +135,8 @@ class ProductController extends Controller
             "inventoryCode" => $inventoryCode,
             "moq" => $moq,
             "qty" => $qty,
-            "actualPrice" => $actualPrice,
-            "listingPrice" => $listingPrice,
+            "originalPrice" => $originalPrice,
+            "sellingPrice" => $sellingPrice,
             "weight" => $weight,
             "applicationImage" => $applicationImage,
             "images" => $images,
@@ -151,7 +151,7 @@ class ProductController extends Controller
         json_result($result);
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         $result = Operation::DeleteData(Config::get("apis.endpoints.product.delete") . '/' . $id);
         json_result($result);

@@ -28,11 +28,11 @@ class ProductBulkPriceController extends Controller
     public function store(Request $request, int $pid)
     {
         $productId = $request->input('productId');
-        $priceRange = $request->input('priceRange');
+        $qtyRange = $request->input('qtyRange');
         $price = $request->input('price');
         $data = [
             "productId" => $productId,
-            "priceRange" => $priceRange,
+            "qtyRange" => $qtyRange,
             "price" => $price
         ];
 
