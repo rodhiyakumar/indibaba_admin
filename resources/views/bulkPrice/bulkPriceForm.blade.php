@@ -35,7 +35,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Qty Range <i class="text-danger">*</i></label>
-                                                <input type="text" class="form-control" name="qtyRange" id="priceRange" disabled={{ isset($id) ? true : false }} value="{{ isset($id) ? $bulkPrice['priceRange'] : '' }}" placeholder="Enter 0-10, 11-20, 21-30, etc" required />
+                                                <input type="text" class="form-control" name="qtyRange" id="priceRange" {{ isset($id) ? 'disabled' : '' }} value="{{ isset($id) ? $bulkPrice['minQty'] . '-' . $bulkPrice['maxQty'] : '' }}" placeholder="Enter 0-10, 11-20, 21-30, etc" required />
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
