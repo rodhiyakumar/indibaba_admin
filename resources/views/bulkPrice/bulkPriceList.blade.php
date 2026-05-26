@@ -95,7 +95,10 @@
                             return btn;
                         }
                     }, {
-                        mData: 'priceRange'
+                        mData: null,
+                        "mRender": function(d) {
+                            return d.minQty + '-' + d.maxQty;
+                        }
                     },
                     {
                         mData: 'price'
