@@ -45,6 +45,7 @@ class ProductController extends Controller
         $description = $request->input('description');
         $images = $request->input('images');
         $reviewCount = $request->input('reviewCount');
+        $rating = $request->input('rating');
         $metaTitle = $request->input('metaTitle');
         $metaKeyword = $request->input('metaKeyword');
         $metaDescription = $request->input('metaDescription');
@@ -70,6 +71,7 @@ class ProductController extends Controller
             "applicationImage" => $applicationImage,
             "images" => $images,
             "reviewCount" => $reviewCount,
+            "rating" => $rating,
             "metaTitle" => $metaTitle,
             "metaKeyword" => $metaKeyword,
             "metaDescription" => $metaDescription,
@@ -117,6 +119,7 @@ class ProductController extends Controller
         $images = $request->input('images');
         $isActive = $request->input('isActive');
         $reviewCount = $request->input('reviewCount');
+        $rating = $request->input('rating');
         $metaTitle = $request->input('metaTitle');
         $metaKeyword = $request->input('metaKeyword');
         $metaDescription = $request->input('metaDescription');
@@ -141,6 +144,7 @@ class ProductController extends Controller
             "applicationImage" => $applicationImage,
             "images" => $images,
             "reviewCount" => $reviewCount,
+            "rating" => $rating,
             "metaTitle" => $metaTitle,
             "metaKeyword" => $metaKeyword,
             "metaDescription" => $metaDescription,

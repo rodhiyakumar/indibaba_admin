@@ -95,6 +95,12 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
+                                                <label>Rating <i class="text-danger">*</i></label>
+                                                <input type="number" min="0" name="rating" id="rating" class="form-control" value="{{ isset($id) ? $product['rating'] : '0' }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
                                                 <label>Review Count <i class="text-danger">*</i></label>
                                                 <input type="number" min="0" name="reviewCount" id="reviewCount" class="form-control" value="{{ isset($id) ? $product['reviewCount'] : '0' }}" required>
                                             </div>
