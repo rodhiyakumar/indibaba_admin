@@ -28,11 +28,13 @@ class BlogController extends Controller
         $title = $request->input('title');
         $image = $request->input('image');
         $description = $request->input('description');
+
         $metaDescription = $request->input('metaDescription');
         $data = [
             "description" => $description,
             "title" => $title,
             "image" => $image,
+            "isActive" => 1,
             "metaDescription" => $metaDescription,
         ];
         $result = Operation::PostData(Config::get("apis.endpoints.blog.store"), $data);
