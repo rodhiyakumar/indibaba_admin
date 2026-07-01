@@ -175,7 +175,7 @@
         @yield('content')
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            &copy; 2023 by National Law Training Institute. Powered by <a href="https://www.capthronetechnologies.com" target="_blank">Capthrone Technologies</a>.
+            &copy; 2023 Indibaba. Powered by <a href="https://www.capthronetechnologies.com" target="_blank">Capthrone Technologies</a>.
         </footer>
     </div>
     <!-- Vendor JS -->
