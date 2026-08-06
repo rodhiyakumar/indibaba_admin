@@ -38,7 +38,7 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">Action</th>
-                                                <th scope="col">Price Range</th>
+                                                <th scope="col">Qty Range</th>
                                                 <th scope="col">Price</th>
                                                 <th scope="col">Date</th>
                                             </tr>
