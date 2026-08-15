@@ -5,8 +5,8 @@ defined('USER_PROFILE_PHOTO_PATH') || define('USER_PROFILE_PHOTO_PATH', 'uploads
 /******************* ADMIN APIS ***********************/
 $ADMIN_API_BASE_URL = '';
 if (env('APP_ENV') == 'local') {
-    // $ADMIN_API_BASE_URL = 'http://localhost:7005/v1/';
-    $ADMIN_API_BASE_URL = 'http://195.35.20.180:7005/v1/';
+    $ADMIN_API_BASE_URL = 'http://localhost:7005/v1/';
+    // $ADMIN_API_BASE_URL = 'http://195.35.20.180:7005/v1/';
 } elseif (env('APP_ENV') == 'production') {
     $ADMIN_API_BASE_URL = 'http://195.35.20.180:7005/v1/';
 }

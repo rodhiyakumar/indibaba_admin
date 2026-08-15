@@ -36,6 +36,8 @@ class ProductController extends Controller
         $grade = $request->input('grade');
         $model = $request->input('model');
         $inventoryCode = $request->input('inventoryCode');
+        $hsn = $request->input('hsn');
+        $taxRate = $request->input('taxRate');
         $moq = $request->input('moq');
         $qty = $request->input('qty');
         $originalPrice = $request->input('originalPrice');
@@ -63,6 +65,8 @@ class ProductController extends Controller
             "grade" => $grade,
             "model" => $model,
             "inventoryCode" => $inventoryCode,
+            "hsn" => $hsn,
+            "taxRate" => $taxRate,
             "moq" => $moq,
             "qty" => $qty,
             "originalPrice" => $originalPrice,
@@ -109,6 +113,8 @@ class ProductController extends Controller
         $grade = $request->input('grade');
         $model = $request->input('model');
         $inventoryCode = $request->input('inventoryCode');
+        $hsn = $request->input('hsn');
+        $taxRate = $request->input('taxRate');
         $moq = $request->input('moq');
         $qty = $request->input('qty');
         $originalPrice = $request->input('originalPrice');
@@ -136,6 +142,8 @@ class ProductController extends Controller
             "grade" => $grade,
             "model" => $model,
             "inventoryCode" => $inventoryCode,
+            "hsn" => $hsn,
+            "taxRate" => $taxRate,
             "moq" => $moq,
             "qty" => $qty,
             "originalPrice" => $originalPrice,

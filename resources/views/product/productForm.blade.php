@@ -65,26 +65,20 @@
                                         </div> --}}
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Name <i class="text-danger">*</i></label>
+                                                <label>Type <i class="text-danger">*</i></label>
                                                 <input type="text" name="name" id="name" class="form-control" value="{{ isset($id) ? $product['name'] : '' }}" placeholder="Enter Name" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Electrical Specs Value</label>
+                                                <label>Series/Cycle Capacity</label>
                                                 <input type="text" name="electricalSpecsValue" id="electricalSpecsValue" class="form-control" value="{{ isset($id) ? $product['electricalSpecsValue'] : '' }}" placeholder="Enter 100, 50, 30, etc" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Electrical Specs Unit</label>
-                                                <select class="form-control" name="electricalSpecsUnit" id="electricalSpecsUnit">
-                                                    <option value="">Select</option>
-                                                    <option value="mAh" {{ isset($id) ? ($product['electricalSpecsUnit'] == 'mAh' ? 'selected' : '') : '' }}>mAh</option>
-                                                    <option value="V" {{ isset($id) ? ($product['electricalSpecsUnit'] == 'V' ? 'selected' : '') : '' }}>V</option>
-                                                    <option value="A" {{ isset($id) ? ($product['electricalSpecsUnit'] == 'A' ? 'selected' : '') : '' }}>A</option>
-                                                    <option value="Hz" {{ isset($id) ? ($product['electricalSpecsUnit'] == 'Hz' ? 'selected' : '') : '' }}>Hz</option>
-                                                </select>
+                                                <label>Capacity</label>
+                                                <input type="text" name="electricalSpecsUnit" id="electricalSpecsUnit" class="form-control" value="{{ isset($id) ? $product['electricalSpecsUnit'] : '' }}" placeholder="Enter mAh, V, A, Hz, etc" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -115,6 +109,18 @@
                                             <div class="form-group">
                                                 <label>Inventory Code <i class="text-danger">*</i></label>
                                                 <input type="text" name="inventoryCode" id="inventoryCode" class="form-control" value="{{ isset($id) ? $product['inventoryCode'] : '' }}" placeholder="Enter Inventory Code" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Tax Rate <i class="text-danger">*</i></label>
+                                                <input type="text" name="taxRate" id="taxRate" class="form-control" value="{{ isset($id) ? $product['taxRate'] : '' }}" placeholder="Eg: 5, 12, 18" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>HSN <i class="text-danger">*</i></label>
+                                                <input type="text" name="hsn" id="hsn" class="form-control" value="{{ isset($id) ? $product['hsn'] : '' }}" placeholder="Enter HSN" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -523,6 +529,10 @@
                     min: 1
                 },
                 sellingPrice: {
+                    required: true,
+                    number: true
+                },
+                taxRate: {
                     required: true,
                     number: true
                 }
