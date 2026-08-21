@@ -58,34 +58,8 @@ class DashboardContoller extends Controller
                     $name = $request->input("name");
                     $mobile = $request->input("mobile");
                     $input = array("name" => $name, "mobile" => $mobile);
-                    $response = Api::PatchApiWithToken(config('apis.endpoints.updateProfile'), $input);
-                    if ($response && is_array($response)) {
-                        if ($response['status']) {
-                            $result = [
-                                "status" => true,
-                                "message" => $response['message'],
-                                "toastHeading" => config('constants.toastSuccess.heading'),
-                                "toastIcon" => config('constants.toastSuccess.icon'),
-                                "name" => $name
-                            ];
-                        } else {
-                            $result = [
-                                'status' => false,
-                                'message' => $response['message'],
-                                'toastHeading' => config('constants.toastError.heading'),
-                                'toastIcon' => config('constants.toastError.icon')
-                            ];
-                        }
-                    } else {
-                        $result = array(
-                            "status" => false,
-                            "message" => "something server error",
-                            "toastHeading" => config('constants.toastError.heading'),
-                            "toastIcon" => config('constants.toastError.icon'),
-                            "code" => $response
-                        );
-                    }
-                    json_result($result);
+                    $result = Operation::PatchWithTokenData(config('apis.endpoints.updateProfile'), $input);
+                    return response()->json($result);
                 }
             }
             if ($type == "password") {
@@ -107,33 +81,8 @@ class DashboardContoller extends Controller
                     $confirm = $request->input("confirm");
                     if ($new == $confirm) {
                         $input = array("newPassword" => $new, "oldPassword" => $old);
-                        $response = Api::PutApiWithToken(config('apis.endpoints.updatePassword'), $input);
-                        if ($response && is_array($response)) {
-                            if ($response['status']) {
-                                $result = [
-                                    "status" => true,
-                                    "message" => $response['message'],
-                                    "toastHeading" => config('constants.toastSuccess.heading'),
-                                    "toastIcon" => config('constants.toastSuccess.icon')
-                                ];
-                            } else {
-                                $result = [
-                                    'status' => false,
-                                    'message' => $response['message'],
-                                    'toastHeading' => config('constants.toastError.heading'),
-                                    'toastIcon' => config('constants.toastError.icon')
-                                ];
-                            }
-                        } else {
-                            $result = array(
-                                "status" => false,
-                                "message" => "something server error",
-                                "toastHeading" => config('constants.toastError.heading'),
-                                "toastIcon" => config('constants.toastError.icon'),
-                                "code" => $response
-                            );
-                        }
-                        json_result($result);
+                        $result = Operation::PutWithTokenData(config('apis.endpoints.updatePassword'), $input);
+                        return response()->json($result);
                     } else {
                         $result = array(
                             'status' => false,
@@ -141,7 +90,7 @@ class DashboardContoller extends Controller
                             'toastHeading' => config('constants.toastError.heading'),
                             'toastIcon' => config('constants.toastError.icon')
                         );
-                        json_result($result);
+                        return response()->json($result);
                     }
                 }
             }
@@ -165,6 +114,6 @@ class DashboardContoller extends Controller
 
         // print_r($data);
         $response = Api::PostWithMultpart(config('apis.DROPZONE_UPLOAD'), $data);
-        json_result($response);
+        return response()->json($response);
     }
 }

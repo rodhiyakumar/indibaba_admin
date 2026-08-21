@@ -37,8 +37,8 @@ class OrderController extends Controller
             "orderStatusId" => $orderStatusId,
             "reasonId" => $reasonId
         ];
-        $result = Operation::PutData(Config::get("apis.endpoints.order.update") . '/' . $id, $data);
-        json_result($result);
+        $result = Operation::PutWithTokenData(Config::get("apis.endpoints.order.update") . '/' . $id, $data);
+        return response()->json($result);
     }
 
     public function updateShipping(Request $request, $id)
@@ -49,8 +49,8 @@ class OrderController extends Controller
             "trackingNo" => $trackingNo,
             "trackingLink" => $trackingLink
         ];
-        $result = Operation::PutData(Config::get("apis.endpoints.order.updateShipping") . '/' . $id, $data);
-        json_result($result);
+        $result = Operation::PutWithTokenData(Config::get("apis.endpoints.order.updateShipping") . '/' . $id, $data);
+        return response()->json($result);
     }
 
     public function orderPrint($id)
@@ -60,15 +60,9 @@ class OrderController extends Controller
         return view('order.order-print', $data);
     }
 
-    public function fetchOrders()
+    public function fetchOrders($page)
     {
-
-        $id = 1;
-        $response = Operation::GetWithTokenData(Config::get("apis.endpoints.order.get") . '/' . $id);
-        if ($response && is_array($response)) {
-            return response()->json(["data" => $response]);
-        } else {
-            return response()->json(["data" => []]);
-        }
+        $result = Operation::GetWithTokenData(Config::get("apis.admin.endpoints.order.get") . '/' . $page . '?search=' . request()->input('search'));
+        return response()->json(["data" => $result]);
     }
 }

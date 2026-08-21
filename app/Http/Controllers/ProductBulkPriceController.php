@@ -36,8 +36,8 @@ class ProductBulkPriceController extends Controller
             "price" => $price
         ];
 
-        $result = Operation::PostData(Config::get("apis.endpoints.bulkPrice.add"), $data);
-        json_result($result);
+        $result = Operation::PostWithTokenData(Config::get("apis.endpoints.bulkPrice.add"), $data);
+        return response()->json($result);
     }
 
     public function edit(int $pid, int $id)
@@ -56,27 +56,19 @@ class ProductBulkPriceController extends Controller
         $data = [
             "price" => $price
         ];
-        $result = Operation::PutData(Config::get("apis.endpoints.bulkPrice.update") . '/' . $id, $data);
-        json_result($result);
+        $result = Operation::PutWithTokenData(Config::get("apis.endpoints.bulkPrice.update") . '/' . $id, $data);
+        return response()->json($result);
     }
 
     public function delete(int $id)
     {
-        $result = Operation::DeleteData(Config::get("apis.endpoints.bulkPrice.delete") . '/' . $id);
-        json_result($result);
+        $result = Operation::DeleteWithTokenData(Config::get("apis.endpoints.bulkPrice.delete") . '/' . $id);
+        return response()->json($result);
     }
 
     public function fetchProductBulkPrice(int $pid)
     {
-        $response = Api::GetApi(Config::get("apis.endpoints.bulkPrice.get") . "?productId=" . $pid);
-        if ($response && is_array($response)) {
-            if ($response['status']) {
-                return response()->json(["data" => $response['data']]);
-            } else {
-                return response()->json(["data" => []]);
-            }
-        } else {
-            return response()->json(["data" => []]);
-        }
+        $result = Operation::GetData(Config::get("apis.endpoints.bulkPrice.get") . "?productId=" . $pid);
+        return response()->json(["data" => $result]);
     }
 }

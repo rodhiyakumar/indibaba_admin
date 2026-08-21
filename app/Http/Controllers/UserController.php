@@ -18,16 +18,8 @@ class UserController extends Controller
 
     public function fetchUser()
     {
-        $response = Api::GetApiWithToken(Config::get("apis.endpoints.user.get"));
+        $result = Operation::GetWithTokenData(Config::get("apis.endpoints.user.get"));
         // dd($response);
-        if ($response && is_array($response)) {
-            if ($response['status']) {
-                return response()->json(["data" => $response['data']]);
-            } else {
-                return response()->json(["data" => []]);
-            }
-        } else {
-            return response()->json(["data" => []]);
-        }
+        return response()->json(["data" => $result]);
     }
 }

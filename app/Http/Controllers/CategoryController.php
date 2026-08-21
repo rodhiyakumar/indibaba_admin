@@ -25,14 +25,14 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-        $categoryName = $request->input('categoryName');
+        $categoryName = "";
         $image = $request->input('image');
         $data = [
             "categoryName" => $categoryName,
             "image" => $image
         ];
-        $result = Operation::PostData(Config::get("apis.endpoints.category.store"), $data);
-        json_result($result);
+        $result = Operation::PostWithTokenData(Config::get("apis.endpoints.category.store"), $data);
+        return response()->json($result);
     }
     public function edit($id)
     {
@@ -51,27 +51,19 @@ class CategoryController extends Controller
             "categoryName" => $categoryName,
             "image" => $image
         ];
-        $result = Operation::PutData(Config::get("apis.endpoints.category.update") . '/' . $id, $data);
-        json_result($result);
+        $result = Operation::PutWithTokenData(Config::get("apis.endpoints.category.update") . '/' . $id, $data);
+        return response()->json($result);
     }
 
     public function delete($id)
     {
-        $result = Operation::DeleteData(Config::get("apis.endpoints.category.delete") . '/' . $id);
-        json_result($result);
+        $result = Operation::DeleteWithTokenData(Config::get("apis.endpoints.category.delete") . '/' . $id);
+        return response()->json($result);
     }
 
     public function fetchCategory()
     {
-        $response = Api::GetApi(Config::get("apis.endpoints.category.get"));
-        if ($response && is_array($response)) {
-            if ($response['status']) {
-                return response()->json(["data" => $response['data']]);
-            } else {
-                return response()->json(["data" => []]);
-            }
-        } else {
-            return response()->json(["data" => []]);
-        }
+        $result = Operation::GetData(Config::get("apis.endpoints.category.get"));
+        return response()->json(["data" => $result]);
     }
 }

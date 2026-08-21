@@ -3,71 +3,80 @@
 
 namespace App\Helpers;
 
-class Operation
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\RequestException;
+
+class UserOperation
 {
     public function __construct() {}
 
-    public static function GetData(string $api)
+    public static function GetData($api)
     {
         $response = Api::GetApi($api);
-        if (!is_array($response) || empty($response['status'])) {
-            return [];
-        }
-
-        return $response['data'] ?? [];
-    }
-
-    public static function PostData(string $api, array $input)
-    {
-        try {
-            $response = Api::PostApi($api, $input);
-            // print_r($response);
-            if (!is_array($response)) {
-                return [
-                    'status'       => false,
-                    'message'      => 'something server error',
-                    'toastHeading' => config('constants.toastError.heading'),
-                    'toastIcon'    => config('constants.toastError.icon'),
-                    'code'         => $response['statusCode'],
-                    'd'            => $input,
-                ];
+        if ($response && is_array($response)) {
+            if ($response['status']) {
+                $data = $response['data'];
+            } else {
+                $data = [];
             }
-
-            $isSuccess  = !empty($response['status']);
-            $toastType  = $isSuccess ? 'toastSuccess' : 'toastError';
-            return [
-                'status'       => $isSuccess,
-                'message'      => $response['message'] ?? 'An unexpected error occurred.',
-                'toastHeading' => config("constants.{$toastType}.heading"),
-                'toastIcon'    => config("constants.{$toastType}.icon"),
-                'code'         => $response['statusCode'],
-                ...(array_key_exists('data', $response) ? ['data' => $response['data']] : []),
-            ];
-        } catch (\Exception $e) {
-            return [
-                "status" => false,
-                "message" => "Internal server error",
-                "toastHeading" => config('constants.toastError.heading'),
-                "toastIcon" => config('constants.toastError.icon'),
-                'code'         => 500,
-                "e" => $e->getMessage(),
-            ];
+        } else {
+            $data = [];
         }
+
+        return $data;
     }
 
-    public static function GetWithTokenData(string $api)
+    public static function GetWithTokenData($api)
     {
-        $response = Api::GetApiWithToken($api);
+        $response = Api::GetApiWithUserToken($api);
         if (!is_array($response) || empty($response['status'])) {
             return [];
         }
         return $response['data'] ?? [];
     }
 
-    public static function PostWithTokenData(string $api, array $input)
+    public static function PostWithTokenData($api, $input)
     {
         try {
-            $response = Api::PostApiWithToken($api, $input);
+            $response = Api::PostApiWithUserToken($api, $input);
+            if (!is_array($response)) {
+                return [
+                    'status'       => false,
+                    'message'      => 'something server error',
+                    'toastHeading' => config('constants.toastError.heading'),
+                    'toastIcon'    => config('constants.toastError.icon'),
+                    'code'         => $response['statusCode'],
+                    'd'            => $input,
+                ];
+            }
+
+            $isSuccess  = !empty($response['status']);
+            $toastType  = $isSuccess ? 'toastSuccess' : 'toastError';
+            return [
+                'status'       => $isSuccess,
+                'message'      => $response['message'] ?? 'An unexpected error occurred.',
+                'data'         => $response['data'] ?? [],
+                'toastHeading' => config("constants.{$toastType}.heading"),
+                'toastIcon'    => config("constants.{$toastType}.icon"),
+                'code'         => $response['statusCode'],
+                ...(array_key_exists('data', $response) ? ['data' => $response['data']] : []),
+            ];
+        } catch (\Exception $e) {
+            return [
+                "status" => false,
+                "message" => "Internal server error",
+                "toastHeading" => config('constants.toastError.heading'),
+                "toastIcon" => config('constants.toastError.icon'),
+                'code'         => 500,
+                "e" => $e->getMessage(),
+            ];
+        }
+    }
+
+    public static function PutWithTokenData($api, $input)
+    {
+        try {
+            $response = Api::PutApiWithUserToken($api, $input);
             if (!is_array($response)) {
                 return [
                     'status'       => false,
@@ -101,10 +110,10 @@ class Operation
         }
     }
 
-    public static function PutWithTokenData(string $api, array $input)
+    public static function PatchWithTokenData($api, $input)
     {
         try {
-            $response = Api::PutApiWithToken($api, $input);
+            $response = Api::PatchApiWithUserToken($api, $input);
             if (!is_array($response)) {
                 return [
                     'status'       => false,
@@ -138,47 +147,10 @@ class Operation
         }
     }
 
-    public static function PatchWithTokenData(string $api, array $input)
+    public static function DeleteWithTokenData($url)
     {
         try {
-            $response = Api::PatchApiWithToken($api, $input);
-            if (!is_array($response)) {
-                return [
-                    'status'       => false,
-                    'message'      => 'something server error',
-                    'toastHeading' => config('constants.toastError.heading'),
-                    'toastIcon'    => config('constants.toastError.icon'),
-                    'code'         => $response['statusCode'],
-                    'd'            => $input,
-                ];
-            }
-
-            $isSuccess  = !empty($response['status']);
-            $toastType  = $isSuccess ? 'toastSuccess' : 'toastError';
-            return [
-                'status'       => $isSuccess,
-                'message'      => $response['message'] ?? 'An unexpected error occurred.',
-                'toastHeading' => config("constants.{$toastType}.heading"),
-                'toastIcon'    => config("constants.{$toastType}.icon"),
-                'code'         => $response['statusCode'],
-                ...(array_key_exists('data', $response) ? ['data' => $response['data']] : []),
-            ];
-        } catch (\Exception $e) {
-            return [
-                "status" => false,
-                "message" => "Internal server error",
-                "toastHeading" => config('constants.toastError.heading'),
-                "toastIcon" => config('constants.toastError.icon'),
-                'code'         => 500,
-                "e" => $e->getMessage(),
-            ];
-        }
-    }
-
-    public static function DeleteWithTokenData(string $url)
-    {
-        try {
-            $response = Api::DeleteApiWithToken($url);
+            $response = Api::DeleteApiWithUserToken($url);
             if (!is_array($response)) {
                 return [
                     'status'       => false,
@@ -210,10 +182,10 @@ class Operation
         }
     }
 
-    public static function DeleteWithTokenImageData(string $url, array $data)
+    public static function DeleteWithTokenImageData($url, $data)
     {
         try {
-            $response = Api::DeleteApiWithToken($url, $data);
+            $response = Api::DeleteApiWithUserToken($url, $data);
             if (!is_array($response)) {
                 return [
                     'status'       => false,

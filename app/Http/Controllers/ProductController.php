@@ -82,8 +82,8 @@ class ProductController extends Controller
             "specification" => $specification,
             "isActive" => $isActive,
         ];
-        $result = Operation::PostData(Config::get("apis.endpoints.product.store"), $data);
-        json_result($result);
+        $result = Operation::PostWithTokenData(Config::get("apis.endpoints.product.store"), $data);
+        return response()->json($result);
     }
     public function edit(int $id)
     {
@@ -159,27 +159,19 @@ class ProductController extends Controller
             "specification" => $specification,
             "isActive" => $isActive,
         ];
-        $result = Operation::PutData(Config::get("apis.endpoints.product.update") . '/' . $id, $data);
-        json_result($result);
+        $result = Operation::PutWithTokenData(Config::get("apis.endpoints.product.update") . '/' . $id, $data);
+        return response()->json($result);
     }
 
     public function delete(int $id)
     {
-        $result = Operation::DeleteData(Config::get("apis.endpoints.product.delete") . '/' . $id);
-        json_result($result);
+        $result = Operation::DeleteWithTokenData(Config::get("apis.endpoints.product.delete") . '/' . $id);
+        return response()->json($result);
     }
 
     public function fetchProducts()
     {
-        $response = Api::GetApi(Config::get("apis.endpoints.product.get"));
-        if ($response && is_array($response)) {
-            if ($response['status']) {
-                return response()->json(["data" => $response['data']]);
-            } else {
-                return response()->json(["data" => []]);
-            }
-        } else {
-            return response()->json(["data" => []]);
-        }
+        $result = Operation::GetData(Config::get("apis.endpoints.product.get"));
+        return response()->json(["data" => $result]);
     }
 }

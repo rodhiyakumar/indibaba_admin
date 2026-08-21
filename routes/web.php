@@ -110,7 +110,7 @@ Route::middleware([Auth::class])->group(function () {
 
     // orders
     Route::get("/orders", [OrderController::class, 'index'])->name("order.list");
-    Route::get("/orders/fetch", [OrderController::class, 'fetchOrders'])->name("order.fetch");
+    Route::get("/orders/fetch/{page}", [OrderController::class, 'fetchOrders'])->name("admin.order.fetch");
     Route::get("/orders/{id}/detail", [OrderController::class, 'detail'])->name("order.detail");
     Route::post("/orders/{id}/update", [OrderController::class, 'update'])->name("order.update");
     Route::get('/orders/{id}/invoice', [OrderController::class, 'orderPrint'])->name("order.print");

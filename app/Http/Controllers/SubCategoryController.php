@@ -39,8 +39,8 @@ class SubCategoryController extends Controller
             "metaKeyword" => $metaKeyword,
             "metaDescription" => $metaDescription
         ];
-        $result = Operation::PostData(Config::get("apis.endpoints.subCategory.store"), $data);
-        json_result($result);
+        $result = Operation::PostWithTokenData(Config::get("apis.endpoints.subCategory.store"), $data);
+        return response()->json($result);
     }
     public function edit($id)
     {
@@ -67,8 +67,8 @@ class SubCategoryController extends Controller
             "metaKeyword" => $metaKeyword,
             "metaDescription" => $metaDescription
         ];
-        $result = Operation::PutData(Config::get("apis.endpoints.subCategory.update") . '/' . $id, $data);
-        json_result($result);
+        $result = Operation::PutWithTokenData(Config::get("apis.endpoints.subCategory.update") . '/' . $id, $data);
+        return response()->json($result);
     }
 
     public function deleteFile(Request $request, $id)
@@ -77,27 +77,19 @@ class SubCategoryController extends Controller
         $data = [
             "sizeImage" => $sizeImage
         ];
-        $result = Operation::PutData(Config::get("apis.endpoints.subCategory.update") . '/' . $id, $data);
-        json_result($result);
+        $result = Operation::PutWithTokenData(Config::get("apis.endpoints.subCategory.update") . '/' . $id, $data);
+        return response()->json($result);
     }
 
     public function delete($id)
     {
-        $result = Operation::DeleteData(Config::get("apis.endpoints.subCategory.delete") . '/' . $id);
-        json_result($result);
+        $result = Operation::DeleteWithTokenData(Config::get("apis.endpoints.subCategory.delete") . '/' . $id);
+        return response()->json($result);
     }
 
     public function fetchSubCategory()
     {
-        $response = Api::GetApi(Config::get("apis.endpoints.subCategory.get"));
-        if ($response && is_array($response)) {
-            if ($response['status']) {
-                return response()->json(["data" => $response['data']]);
-            } else {
-                return response()->json(["data" => []]);
-            }
-        } else {
-            return response()->json(["data" => []]);
-        }
+        $result = Operation::GetData(Config::get("apis.endpoints.subCategory.get"));
+        return response()->json(["data" => $result]);
     }
 }

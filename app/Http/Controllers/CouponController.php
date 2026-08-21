@@ -31,8 +31,8 @@ class CouponController extends Controller
             "couponName" => $couponName,
             "couponDiscount" => $couponDiscount
         ];
-        $result = Operation::PostData(Config::get("apis.endpoints.coupon.store"), $data);
-        json_result($result);
+        $result = Operation::PostWithTokenData(Config::get("apis.endpoints.coupon.store"), $data);
+        return response()->json($result);
     }
     public function edit($id)
     {
@@ -51,27 +51,19 @@ class CouponController extends Controller
             "couponName" => $couponName,
             "couponDiscount" => $couponDiscount
         ];
-        $result = Operation::PutData(Config::get("apis.endpoints.coupon.update") . '/' . $id, $data);
-        json_result($result);
+        $result = Operation::PutWithTokenData(Config::get("apis.endpoints.coupon.update") . '/' . $id, $data);
+        return response()->json($result);
     }
 
     public function delete($id)
     {
-        $result = Operation::DeleteData(Config::get("apis.endpoints.coupon.delete") . '/' . $id);
-        json_result($result);
+        $result = Operation::DeleteWithTokenData(Config::get("apis.endpoints.coupon.delete") . '/' . $id);
+        return response()->json($result);
     }
 
     public function fetchCategory()
     {
-        $response = Api::GetApi(Config::get("apis.endpoints.coupon.get"));
-        if ($response && is_array($response)) {
-            if ($response['status']) {
-                return response()->json(["data" => $response['data']]);
-            } else {
-                return response()->json(["data" => []]);
-            }
-        } else {
-            return response()->json(["data" => []]);
-        }
+        $result = Operation::GetData(Config::get("apis.endpoints.coupon.get"));
+        return response()->json(["data" => $result]);
     }
 }

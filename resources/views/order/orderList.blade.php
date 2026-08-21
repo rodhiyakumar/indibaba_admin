@@ -113,10 +113,35 @@
         function getAllOrders() {
             $("#dataTable").dataTable().fnDestroy();
             $('#dataTable').DataTable({
-                ajax: "{{ route('order.fetch') }}",
-                "bSort": false,
-                // "serverSide": true,
-                "processing": true,
+                bSort: false,
+                searching: true,
+                // dom: "Bfrtip",
+                bLengthChange: false,
+                pageLength: 10,
+                ajax: function(data, callback, settings) {
+                    let page = data.start;
+                    // console.log(data)
+                    page = Math.ceil((page - 1) / 10) + 1;
+                    $.ajax({
+                        url: `{{ route('admin.order.fetch', ['page' => 'PAGE']) }}`.replace('PAGE', page) + '?search=' + data.search.value,
+                        // dataType: 'text',
+                        type: 'get',
+                        // data: {
+                        //     RecordsStart: data.start,
+                        //     PageSize: data.length
+                        // },
+                        success: function(data, textStatus, jQxhr) {
+                            callback({
+                                // draw: data.draw,
+                                data: data.data,
+                                recordsTotal: data.totalRecords,
+                                recordsFiltered: data.totalRecords
+                            });
+                        },
+                        error: function(jqXhr, textStatus, errorThrown) {}
+                    });
+                },
+                serverSide: true,
                 aoColumns: [{
                         mData: null,
                         "bSortable": false,
@@ -145,6 +170,9 @@
                     },
                     {
                         mData: 'orderAmount'
+                    },
+                    {
+                        mData: 'couponName'
                     },
                     {
                         mData: null,

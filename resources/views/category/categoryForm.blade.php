@@ -34,7 +34,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Category Name <i class="text-danger">*</i></label>
-                                                <input type="text" name="categoryName" id="categoryName" class="form-control" value="{{ isset($id) ? $category['categoryName'] : '' }}" placeholder="Enter Category Name" required>
+                                                <input type="text" name="categoryName" id="categoryName" class="form-control" value="{{ isset($id) ? $category['categoryName'] : '' }}" placeholder="Enter Category Name">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -143,7 +143,7 @@
 
         $("#addForm, #updateForm").validate({
             rules: {
-                categoryName: "required"
+                // categoryName: "required"
             },
             errorPlacement: function errorPlacement(error, element) {
                 var $parent = $(element).parents('.form-group');

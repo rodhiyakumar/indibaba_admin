@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Api;
 use App\Helpers\Operation;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -37,8 +36,8 @@ class BlogController extends Controller
             "isActive" => 1,
             "metaDescription" => $metaDescription,
         ];
-        $result = Operation::PostData(Config::get("apis.endpoints.blog.store"), $data);
-        json_result($result);
+        $result = Operation::PostWithTokenData(Config::get("apis.endpoints.blog.store"), $data);
+        return response()->json($result);
     }
 
     public function edit($id)
@@ -63,8 +62,8 @@ class BlogController extends Controller
             "isActive" => $isActive,
             "metaDescription" => $metaDescription
         ];
-        $result = Operation::PutData(Config::get("apis.endpoints.blog.update") . '/' . $id, $data);
-        json_result($result);
+        $result = Operation::PutWithTokenData(Config::get("apis.endpoints.blog.update") . '/' . $id, $data);
+        return response()->json($result);
     }
 
     public function deleteBlogFile($id)
@@ -72,27 +71,19 @@ class BlogController extends Controller
         $data = [
             "image" => ""
         ];
-        $result = Operation::PutData(Config::get("apis.endpoints.blog.update") . '/' . $id, $data);
+        $result = Operation::PutWithTokenData(Config::get("apis.endpoints.blog.update") . '/' . $id, $data);
         return response()->json($result);
     }
 
     public function delete($id)
     {
-        $result = Operation::DeleteData(Config::get("apis.endpoints.blog.delete") . '/' . $id);
-        json_result($result);
+        $result = Operation::DeleteWithTokenData(Config::get("apis.endpoints.blog.delete") . '/' . $id);
+        return response()->json($result);
     }
 
     public function fetchBlogs()
     {
-        $response = Api::GetApi(Config::get("apis.endpoints.blog.get"));
-        if ($response && is_array($response)) {
-            if ($response['status']) {
-                return response()->json(["data" => $response['data']]);
-            } else {
-                return response()->json(["data" => []]);
-            }
-        } else {
-            return response()->json(["data" => []]);
-        }
+        $result = Operation::GetData(Config::get("apis.endpoints.blog.get"));
+        return response()->json(["data" => $result]);
     }
 }
