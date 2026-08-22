@@ -410,6 +410,12 @@
                             var response = JSON.parse(response);
                             if (response.status) {
                                 $("#masterImage").val(response.data.public_url);
+                            } else {
+                                // Throw error inside Dropzone UI
+                                var errorMessage = response.message || "Upload failed from API";
+                                showDropzoneError(file, errorMessage);
+                                // Clear hidden input if set
+                                $("#masterImage").val('');
                             }
                         },
                         error: function(xhr) {
@@ -461,6 +467,12 @@
 
                             if (response.status) {
                                 $("#images").val(uploadedImages.map((item) => item.file).join(","));
+                            } else {
+                                // Throw error inside Dropzone UI
+                                var errorMessage = response.message || "Upload failed from API";
+                                showDropzoneError(file, errorMessage);
+                                // Clear hidden input if set
+                                $("#images").val('');
                             }
                         },
                         error: function(xhr) {
@@ -475,6 +487,21 @@
                 });
             }
         });
+
+        // Helper function to force Dropzone error UI
+        function showDropzoneError(file, message) {
+            file.status = Dropzone.ERROR;
+            if (file.previewElement) {
+                file.previewElement.classList.add("dz-error");
+                file.previewElement.classList.remove("dz-success");
+
+                // Inject message into Dropzone's default error container
+                var errorMsgNode = file.previewElement.querySelector("[data-dz-errormessage]");
+                if (errorMsgNode) {
+                    errorMsgNode.textContent = message;
+                }
+            }
+        }
 
         function reset_btn() {
             $("#addForm")[0].reset();

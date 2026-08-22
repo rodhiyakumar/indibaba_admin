@@ -127,6 +127,12 @@
                             var response = JSON.parse(response);
                             if (response.status) {
                                 $("#image").val(response.data.public_url);
+                            } else {
+                                // Throw error inside Dropzone UI
+                                var errorMessage = response.message || "Upload failed from API";
+                                showDropzoneError(file, errorMessage);
+                                // Clear hidden input if set
+                                $("#image").val('');
                             }
                         },
                         error: function(xhr) {
@@ -134,6 +140,20 @@
                         }
                     });
                 });
+                // Helper function to force Dropzone error UI
+                function showDropzoneError(file, message) {
+                    file.status = Dropzone.ERROR;
+                    if (file.previewElement) {
+                        file.previewElement.classList.add("dz-error");
+                        file.previewElement.classList.remove("dz-success");
+
+                        // Inject message into Dropzone's default error container
+                        var errorMsgNode = file.previewElement.querySelector("[data-dz-errormessage]");
+                        if (errorMsgNode) {
+                            errorMsgNode.textContent = message;
+                        }
+                    }
+                }
             }
         });
 
@@ -143,7 +163,7 @@
 
         $("#addForm, #updateForm").validate({
             rules: {
-                // categoryName: "required"
+                categoryName: "required"
             },
             errorPlacement: function errorPlacement(error, element) {
                 var $parent = $(element).parents('.form-group');
@@ -208,8 +228,8 @@
         // Delete Category
         function deleteFile(url) {
             const chk = confirm('Are you sure you want to delete this file?');
-            var deleteUrl = "{{ route('subCategory.deleteFile', ['id' => ':id']) }}";
-            deleteUrl = deleteUrl.replace(':id', categoryId);
+            // var deleteUrl = "{{ route('subCategory.deleteFile', ['id' => ':id']) }}";
+            // deleteUrl = deleteUrl.replace(':id', categoryId);
             if (chk === true) {
                 $(".dropzone-preload").html("");
                 $("#image").val("");

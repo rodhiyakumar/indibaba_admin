@@ -25,7 +25,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-        $categoryName = "";
+        $categoryName = $request->input('categoryName');
         $image = $request->input('image');
         $data = [
             "categoryName" => $categoryName,

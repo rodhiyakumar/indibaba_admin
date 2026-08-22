@@ -24,6 +24,12 @@ return [
         'user'           => [
             'get' => $ADMIN_API_BASE_URL . 'get-user',
         ],
+        'banner'       => [
+            'get'    => $ADMIN_API_BASE_URL . 'get-banner',
+            'store'  => $ADMIN_API_BASE_URL . 'add-banner',
+            'update' => $ADMIN_API_BASE_URL . 'update-banner',
+            'delete' => $ADMIN_API_BASE_URL . 'delete-banner',
+        ],
         'category'       => [
             'get'    => $ADMIN_API_BASE_URL . 'get-category',
             'store'  => $ADMIN_API_BASE_URL . 'add-category',

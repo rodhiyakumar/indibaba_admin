@@ -15,6 +15,13 @@
         //     'dropdown' => false,
         // ],
         [
+            'name' => 'Banners',
+            'icon' => 'fa fa-info',
+            'link' => '#',
+            'page' => '',
+            'dropdown' => [['name' => 'All Banners', 'link' => url('banner'), 'page' => 'banner'], ['name' => 'Add Banner', 'link' => url('banner/create'), 'page' => 'banner/create']],
+        ],
+        [
             'name' => 'Category',
             'icon' => 'fa fa-info',
             'link' => '#',

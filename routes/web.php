@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Middleware\NoAuth;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
@@ -37,6 +38,15 @@ Route::middleware([Auth::class])->group(function () {
     // Users
     Route::get("/user", [UserController::class, 'index'])->name("user.list");
     Route::get("/user/fetch", [UserController::class, 'fetchUser'])->name("user.fetch");
+
+    // Banner
+    Route::get("/banner", [BannerController::class, 'index'])->name("banner.list");
+    Route::get("/banner/fetch", [BannerController::class, 'fetchBanner'])->name("banner.fetch");
+    Route::get("/banner/create", [BannerController::class, 'create'])->name("banner.create");
+    Route::post("/banner/store", [BannerController::class, 'store'])->name("banner.store");
+    Route::get("/banner/{id}/edit", [BannerController::class, 'edit'])->name("banner.edit");
+    Route::post("/banner/{id}/update", [BannerController::class, 'update'])->name("banner.update");
+    Route::delete("/category/{id}/delete", [CategoryController::class, 'delete'])->name("category.delete");
 
     // Categories
     Route::get("/category", [CategoryController::class, 'index'])->name("category.list");

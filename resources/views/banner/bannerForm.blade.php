@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-12">
                         <div class="box">
-                            <form method="post" id="{{ isset($id) ? 'updateBlog' : 'addBlog' }}">
+                            <form method="post" id="{{ isset($id) ? 'updateForm' : 'addForm' }}">
                                 <input type="hidden" name="edit_id" value="{{ isset($id) ? $id : '' }}">
                                 <div class="box-header with-boder">
                                     <h4 class="box-title">{{ isset($id) ? 'Update' : 'Add' }}</h4>
@@ -33,51 +33,37 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label>Title <i class="text-danger">*</i></label>
-                                                <input type="text" name="title" id="title" class="form-control" value="{{ isset($id) && isset($blog['title']) ? $blog['title'] : '' }}" placeholder="Enter Title" required>
+                                                <label>Type <i class="text-danger">*</i></label>
+                                                <select class="form-control" name="type" id="type">
+                                                    <option value="">Select</option>
+                                                    <option value="web" {{ isset($id) ? ($banner['type'] == 'web' ? 'selected' : '') : '' }}>Web</option>
+                                                    <option value="app" {{ isset($id) ? ($banner['type'] == 'app' ? 'selected' : '') : '' }}>App</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label>Meta Description</label>
-                                                <input type="text" name="metaDescription" id="metaDescription" class="form-control" value="{{ isset($id) && isset($blog['metaDescription']) ? $blog['metaDescription'] : '' }}" placeholder="Enter Meta Description">
+                                                <label>Name <i class="text-danger">*</i></label>
+                                                <input type="text" name="name" id="name" class="form-control" value="{{ isset($id) ? $banner['name'] : '' }}" placeholder="Enter Name" required>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        @if (isset($id))
-                                            <div class="col-sm-4">
-                                                <div class="form-group">
-                                                    <label>Active <i class="text-danger">*</i></label>
-                                                    <select class="form-control" name="isActive" id="isActive" required>
-                                                        <option value="1" @if (isset($id) && $blog['isActive'] === 1) selected @endif>Yes</option>
-                                                        <option value="0" @if (isset($id) && $blog['isActive'] === 0) selected @endif>No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="row" id="images_box">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label>Images <i class="text-danger">*</i> (Recommended size: W: 2000px x H: 1300px)</label>
-                                                <div id="imageUploadDropzone" class="dropzone {{ isset($id) && !empty($blog['image']) ? 'd-none' : 'd-show' }}">
-                                                </div>
+                                                <label>Link</label>
+                                                <input type="text" name="url" id="url" class="form-control" value="{{ isset($id) ? $banner['url'] : '' }}" placeholder="Enter Link">
                                             </div>
                                         </div>
-                                        @if (isset($id) && $blog['image'])
-                                            <div class="dropzone-preload col-sm-1 text-center">
-                                                <img src="{{ $blog['image'] }}" class="img-fluid">
-                                                <a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="deleteBlogFile('{{ $blog['image'] }}')"><i class="fa fa-trash"></i></a>
-                                            </div>
-                                        @endif
-                                        <input type="hidden" name="image" class="form-control" id="image" value="{{ isset($id) ? '' : '' }}" placeholder="">
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
+                                        <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label>Description</label>
-                                                <textarea id="description" name="description">{{ isset($id) ? $blog['description'] : '' }}</textarea>
+                                                <label>Image (Recommended size: W: 864px x H: 1232px)</label>
+                                                <div id="imageUploadDropzone" class="dropzone"></div>
+                                                @if (isset($id) && $banner['image'])
+                                                    <div class="dropzone-preload col-sm-1 text-center">
+                                                        <img src="{{ $banner['image'] }}" class="img-fluid">
+                                                        <a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="deleteFile('{{ $banner['image'] }}')"><i class="fa fa-trash"></i></a>
+                                                    </div>
+                                                @endif
+                                                <input type="hidden" name="image" id="image" class="form-control" value="{{ isset($id) ? $banner['image'] : '' }}" placeholder="Image">
                                             </div>
                                         </div>
                                     </div>
@@ -87,9 +73,9 @@
                                         <i class="ti-save-alt"></i> {{ isset($id) ? 'Update' : 'Save' }}
                                     </button>
                                     @if (isset($id))
-                                        <button type="reset" onclick="cancel_btn()" class="btn btn-rounded  btn-outline mr-1">
+                                        <a href="{{ url('add-product') }}" class="btn btn-rounded  btn-outline mr-1">
                                             <i class="ti-trash"></i> Cancel
-                                        </button>
+                                        </a>
                                     @else
                                         <button type="reset" onclick="reset_btn()" class="btn btn-rounded  btn-outline mr-1">
                                             <i class="ti-trash"></i> Reset
@@ -108,44 +94,28 @@
 
 @section('scripts')
     <script src="{{ asset('assets/js/summernote-bs4.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
     <script>
-        var submitUrl = "{{ route('blog.store') }}";
-        var redirectUrl = "{{ route('blog.list') }}";
-        var blogId = '';
-        var blog = '';
+        var submitUrl = "{{ route('banner.store') }}";
+        var redirectUrl = "{{ route('banner.list') }}";
+        var banner, bannerId = "";
         @if (isset($id))
-            blog = @json($blog);
-            blogId = @json($id);
-            $("#image").val(blog.image);
-            submitUrl = "{{ route('blog.update', ['id' => ':id']) }}";
-            submitUrl = submitUrl.replace(':id', blogId);
+            var banner = @json($banner);
+            var bannerId = @json($id);
+            submitUrl = "{{ route('banner.update', ['id' => ':id']) }}";
+            submitUrl = submitUrl.replace(':id', bannerId);
         @endif
 
-        $(document).ready(function() {
-            $('#description').summernote({
-                height: 200
-            });
-
-
-            // var isHaveUploadImage = {{ isset($id) && !empty($blog['image']) ? 1 : 0 }};
-            // if (isHaveUploadImage) {
-            //     $("#imageUploadDropzone").hide();
-            // }
-
-        })
-
-        // Dropzone Setting
         Dropzone.autoDiscover = false;
         var uploadedImages = [];
 
         var myDropzone = new Dropzone("#imageUploadDropzone", {
             url: HOST_URL + `/dropzone`,
+            // autoProcessQueue: false,
+            // uploadMultiple: false,
             maxFiles: 1,
-            parallelUploads: 5,
+            maxFilesize: 1,
             acceptedFiles: "image/jpeg,image/jpg,image/png",
             addRemoveLinks: true,
-            maxFilesize: 1,
             dictDefaultMessage: "Drag and drop image here or click to upload",
             init: function() {
                 this.on("addedfile", function(file) {
@@ -157,7 +127,7 @@
 
                     let formData = new FormData();
                     formData.append("file", file);
-                    formData.append("type", "blog");
+                    formData.append("type", "banners");
                     $.ajax({
                         url: "{{ route('upload') }}", // Your Laravel API route
                         method: "POST",
@@ -203,32 +173,15 @@
             }
         });
 
-        function reset_btn() {
-            $("#addBlog")[0].reset();
-            myDropzone.destroy();
-            $('#description').summernote('code', '');
-        }
+        $(document).ready(function() {})
 
-        function cancel_btn() {
-            window.location.href = redirectUrl;
-        }
+        function reset_btn() {}
 
-        // Delete Category
-        function deleteBlogFile(url) {
-            const chk = confirm('Are you sure you want to delete this file?');
-            var deleteUrl = "{{ route('blog.deleteFile', ['id' => ':id']) }}";
-            deleteUrl = deleteUrl.replace(':id', blogId);
-            if (chk === true) {
-                myDropzone.options.maxFiles = 1;
-                $(".dropzone-preload").html("");
-                $("#blogImage").val("");
-                $("#imageUploadDropzone").removeClass("d-none");
-                $("#imageUploadDropzone").addClass("d-show");
-            }
-        }
-
-        $("#addBlog, #updateBlog").validate({
-            rules: {},
+        $("#addForm, #updateForm").validate({
+            rules: {
+                name: "required",
+                type: "required"
+            },
             errorPlacement: function errorPlacement(error, element) {
                 var $parent = $(element).parents('.form-group');
                 // Do not duplicate errors
@@ -249,16 +202,10 @@
             },
             submitHandler: function(form) {
                 var data = new FormData(form);
-                var description = encodeURIComponent($('#description').summernote('code'));
-                if (description == '%3Cp%3E%3Cbr%3E%3C%2Fp%3E') {
-                    description = '';
-                }
-                data.append('description', description);
                 data.append('_token', "{{ csrf_token() }}");
                 $.ajax({
                     type: 'post',
-                    url: (blogId !== '') ? HOST_URL +
-                        `/blog/${blogId}/update` : HOST_URL + "/blog/store",
+                    url: submitUrl,
                     data: data,
                     dataType: 'json',
                     cache: false,
@@ -276,11 +223,8 @@
                                 hideAfter: 5000,
                                 position: 'top-right',
                             });
-                            if (blogId !== '') {
-                                cancel_btn();
-                            } else {
-                                reset_btn();
-                            }
+                            window.location.href = redirectUrl;
+                            reset_btn();
                         } else {
                             $.toast({
                                 heading: result.toastHeading,
@@ -297,5 +241,16 @@
                 });
             }
         });
+
+        // Delete Category
+        function deleteFile(url) {
+            const chk = confirm('Are you sure you want to delete this file?');
+            // var deleteUrl = "{{ route('subCategory.deleteFile', ['id' => ':id']) }}";
+            // deleteUrl = deleteUrl.replace(':id', categoryId);
+            if (chk === true) {
+                $(".dropzone-preload").html("");
+                $("#image").val("");
+            }
+        }
     </script>
 @endsection
