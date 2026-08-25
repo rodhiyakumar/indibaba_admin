@@ -584,6 +584,8 @@
             },
             submitHandler: function(form) {
                 var data = new FormData(form);
+                const brandName = $('#brandId option:selected').text();
+                data.append('brandName', brandName.trim());
                 var description = encodeURIComponent($('#description').summernote('code'));
                 if (description == '%3Cp%3E%3Cbr%3E%3C%2Fp%3E') {
                     description = '';

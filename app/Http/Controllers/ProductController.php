@@ -52,6 +52,7 @@ class ProductController extends Controller
         $metaKeyword = $request->input('metaKeyword');
         $metaDescription = $request->input('metaDescription');
         $specification = $request->input('specification');
+        $brandName = $request->input('brandName');
         $isActive = 0;
         $data = [
             "categoryId" => $categoryId,
@@ -81,6 +82,7 @@ class ProductController extends Controller
             "metaDescription" => $metaDescription,
             "specification" => $specification,
             "isActive" => $isActive,
+            "brandName" => $brandName,
         ];
         $result = Operation::PostWithTokenData(Config::get("apis.endpoints.product.store"), $data);
         return response()->json($result);
@@ -130,6 +132,7 @@ class ProductController extends Controller
         $metaKeyword = $request->input('metaKeyword');
         $metaDescription = $request->input('metaDescription');
         $specification = $request->input('specification');
+        $brandName = $request->input('brandName');
         $data = [
             "categoryId" => $categoryId,
             "brandId" => $brandId,
@@ -158,6 +161,7 @@ class ProductController extends Controller
             "metaDescription" => $metaDescription,
             "specification" => $specification,
             "isActive" => $isActive,
+            "brandName" => $brandName,
         ];
         $result = Operation::PutWithTokenData(Config::get("apis.endpoints.product.update") . '/' . $id, $data);
         return response()->json($result);
